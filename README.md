@@ -1,11 +1,18 @@
-apply plugin: 'groovy'
-apply plugin: 'java-library'
+The application gppTransform can be downloaded as a runnable jar which
+can be executed using:   
+java -jar gppTransform.jar  
 
-apply plugin: 'maven-publish'
+The application opens a file chooser which opens files with type extension cgpp and gpp.
+The gppTransform then transforms definitional scripts that use the groovy_parallel_patterns
+library, into the required Groovy scripts that can be executed. The resultant files are stored
+in the same folder as the original script.
 
-group 'jonkerridge'
-version '1.1.0'
+Files with extension cgpp create applications that can be executed on a cluster of multi-core 
+workstations.  
+Files with extension gpp create applications that run on a single multi-core workstation.  
 
+The repositories and dependencies used in the build.gradle file for gppTransform are:
+<pre>
 repositories {
     mavenCentral()
     maven { // to download the jonkerridge.groovy_jcsp library
@@ -50,35 +57,6 @@ repositories {
     }
 }
 
-
-task sourcesJar(type: Jar) {
-    from sourceSets.main.allSource
-    archiveClassifier.set( "sources")
-}
-
-artifacts {sourcesJar}
-
-jar {
-    manifest {
-        attributes(
-            'Main-Class': 'gppTransform.GppTransformer'
-        )
-    }
-    from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
-        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-    }
-}
-
-publishing {
-    publications {
-        gppTransform(MavenPublication) {
-            from components.java
-            artifact sourcesJar
-        }
-    }
-}
-
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:3.0.7'
     compile 'cspforjava:jcsp:1.1.9'
@@ -87,3 +65,7 @@ dependencies {
     compile 'jonkerridge:groovy_parallel_patterns:1.1.12'
     compile "jonkerridge:gpp_cluster_builder:1.1.0"
 }
+</pre>
+
+The gppTransform.jar file contains all the above libraries and can be used without having to 
+download each of the libraries.

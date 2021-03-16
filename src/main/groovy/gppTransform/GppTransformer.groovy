@@ -1,7 +1,7 @@
 package gppTransform
 
-import gppBuilder.GPPbuilder
-import gppClusterBuilder.CGPPbuilder
+import gpp_builder.GPPbuilder
+import gpp_cluster_builder.CGPPbuilder
 
 import javax.swing.JFileChooser
 import javax.swing.filechooser.FileNameExtensionFilter
